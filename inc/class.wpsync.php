@@ -58,7 +58,7 @@ class Wpsync {
 
         add_filter( 'cron_schedules', 'every_minute_filter');
         function every_minute_filter( $schedules ) {
-            $schedules['every_minute'] = array(
+            $schedules['every_two_minute'] = array(
                 'interval'  => 120,
                 'display'   => __( 'Every minute', 'wpsync' )
             );

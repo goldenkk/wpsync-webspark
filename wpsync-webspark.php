@@ -21,7 +21,7 @@ function my_activation() {
     }
 
     if ( ! wp_next_scheduled( 'product_parse_status_check' ) ) {
-        wp_schedule_event( time(), 'every_minute', 'product_parse_status_check' );
+        wp_schedule_event( time(), 'every_two_minute', 'product_parse_status_check' );
     }
 }
 
