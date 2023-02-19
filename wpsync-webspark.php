@@ -4,6 +4,7 @@
  * Plugin Name: Wpsync Webspark
  */
 
+defined( 'ABSPATH' ) || exit;
 
 define( 'WPSYNC_WEBSPARK__PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 
