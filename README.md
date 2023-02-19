@@ -1,4 +1,4 @@
-# wordpress-wpsync-webspark
+# wpsync-webspark
 
 1. Скинуть в папку wpsync-webspark
 2. Установить плагины WooCommerce и FIFU( для картинок, что бы не загружать на хостинг, 
