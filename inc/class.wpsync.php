@@ -29,7 +29,7 @@ class Wpsync {
     }
 
     public static function load_resources() {
-        wp_register_script( 'wpsync-webspark.js', plugin_dir_url( __FILE__ ) . 'inc/wpsync-webspark.js', array('jquery'), '1.1' );
+        wp_register_script( 'wpsync-webspark.js', plugin_dir_url( __DIR__ ) . 'assets/wpsync-webspark.js', array('jquery'), '1.2' );
         wp_enqueue_script( 'wpsync-webspark.js' );
     }
 

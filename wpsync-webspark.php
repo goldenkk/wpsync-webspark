@@ -7,8 +7,8 @@
 
 define( 'WPSYNC_WEBSPARK__PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 
-require_once( WPSYNC_WEBSPARK__PLUGIN_DIR . 'class.wpsync.php' );
-require_once( WPSYNC_WEBSPARK__PLUGIN_DIR . 'class.product.parser.php' );
+require_once( WPSYNC_WEBSPARK__PLUGIN_DIR . 'inc/class.wpsync.php' );
+require_once( WPSYNC_WEBSPARK__PLUGIN_DIR . 'inc/class.product.parser.php' );
 
 $productParser = new ProductParser();
 
