@@ -8,9 +8,9 @@ class ProductParser {
 
     public function __construct()
     {
-        $parse_status = $this->getParseStatus();
-        $this->parse_status = $parse_status['parse_status'];
-        $this->parsed_product_counter = $parse_status['parsed_product_counter'];
+        $this->checkParseStatuses();
+        $this->parse_status = get_option('parse_status');
+        $this->parsed_product_counter = get_option('parsed_product_counter');
     }
 
     public function init() {
@@ -25,13 +25,12 @@ class ProductParser {
     public function createOrUpdateProductJson() {
         $data   = file_get_contents($this->feedsUrl);
         $decoded_data = json_decode($data);
-        $parse_status = $this->getParseStatus()['parse_status'];
+        $parse_status = $this->parse_status;
 
         if ($data && !$decoded_data->error && $parse_status != 'in_process') {
             $ifp = @fopen( $this->uploadDir.'/'.$this->productJsonName, 'wb' );
             if ( ! $ifp ) {
                 return array(
-                    /* translators: %s: File name. */
                     'error' => sprintf( __( 'Could not write file %s' ), $this->uploadDir.'/'.$this->productJsonName ),
                 );
             }
@@ -51,7 +50,7 @@ class ProductParser {
 
     public function parseProductsProcess() {
         $productData = $this->getParseProducts();
-        $parsed_product_counter = $this->getParseStatus()['parsed_product_counter'];
+        $parsed_product_counter = $this->parsed_product_counter;
 
         $productData = array_slice($productData, $parsed_product_counter);
         if ($productData) {
@@ -86,16 +85,12 @@ class ProductParser {
         return [];
     }
 
-    public function getParseStatus() {
-        if (!get_option('parse_status'))  add_option('parse_status', 'start');
-        if (!get_option('parsed_product_counter'))  add_option('parsed_product_counter', 0);
+    public function checkParseStatuses() {
+        if (!get_option('parse_status'))
+            add_option('parse_status', 'start');
 
-        $parse_status = get_option('parse_status');
-        $parse_step_counter = get_option('parsed_product_counter') ? get_option('parsed_product_counter') : 0;
-
-        $status_data = ['parse_status' => $parse_status, 'parsed_product_counter' => $parse_step_counter];
-
-        return $status_data;
+        if (!get_option('parsed_product_counter'))
+            add_option('parsed_product_counter', 0);
     }
 
     public function updateParseStatus($parse_status, $parsed_product_counter = false) {
@@ -153,6 +148,4 @@ class ProductParser {
         $product_id = $wcProduct->save();
         fifu_dev_set_image($product_id, $newProduct->picture);
     }
-
-
 }

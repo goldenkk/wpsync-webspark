@@ -7,13 +7,12 @@ class Wpsync {
     public static function init() {
         self::$requiredPlugins = self::checkRequiredPlugins();
         if ( ! self::$initiated ) {
+            self::$initiated = true;
             self::init_hooks();
         }
     }
 
     public static function init_hooks() {
-
-        self::$initiated = true;
 
         add_action( 'admin_menu', array( 'Wpsync', 'admin_menu' ), 5 );
 
@@ -38,10 +37,12 @@ class Wpsync {
     }
 
     public static function start_parse_process() {
-        if (!empty( $_POST['startParse'])) {
-            $productParser = new ProductParser();
-            $productParser->updateParseStatus('start',0);
+        if (empty($_POST['startParse']) || !current_user_can('manage_options')) {
+            return;
         }
+
+        $productParser = new ProductParser();
+        $productParser->updateParseStatus('start',0);
     }
 
     public static function activateCronProcess() {
@@ -67,9 +68,7 @@ class Wpsync {
     }
 
     public static function view( $name, $args = array()) {
-
         $file = WPSYNC_WEBSPARK__PLUGIN_DIR . 'views/'. $name . '.php';
-
         include( $file );
     }
 }
